@@ -15,7 +15,7 @@ const SubmitButton = ({ onPress }) => (
 export default class AddEntry extends Component {
   state = {
     run: 0,
-    bike: 10,
+    bike: 0,
     swim: 0,
     sleep: 0,
     eat: 0
@@ -79,7 +79,8 @@ export default class AddEntry extends Component {
         <Text>{JSON.stringify(this.state)}</Text>
         <DateHeader date={(new Date().toLocaleDateString())} />
         {Object.keys(metaInfo).map(key => {
-          const { getIcon, type, unit, ...rest } = metaInfo[key]
+          const metricInfo = metaInfo[key]
+          const { getIcon, type, unit, ...rest } = metricInfo
           const value = this.state[key]
           {/* alert(JSON.stringify(metaInfo[key]))           */}
           return (
@@ -88,11 +89,16 @@ export default class AddEntry extends Component {
 
               {type === 'slider'
                 ? <UdaciSlider
-                  {...metaInfo[key]}
-                  value={value}
-                  onChange={(value) => this.slide(key, value)}
+                    {...metricInfo}
+                    value={value}
+                    onChange={(value) => this.slide(key, value)}
                   />
-                : <UdaciSteppers />
+                : <UdaciSteppers
+                    {...metricInfo}
+                    value={value}
+                    onIncrement={() => { this.increment(key) }}
+                    onDecrement={() => { this.decrement(key) }}
+                  />
               }
 
             </View>
