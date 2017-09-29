@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-export default function UdacitySteppers () {
+export default function UdaciSteppers () {
   return (
     <View>
-      <Text>UdacitySteppers</Text>
+      <Text>UdaciSteppers...</Text>
     </View>
   )
 }

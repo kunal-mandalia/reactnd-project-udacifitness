@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
-import { View } from 'react-native'
-import { getMetricMetaInfo } from '../utils/helpers'
-import UdacitySlider from './UdacitySlider'
-import UdacitySteppers from './UdacitySteppers'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { getMetricMetaInfo, timeToString } from '../utils/helpers'
+import UdaciSlider from './UdaciSlider'
+import UdaciSteppers from './UdaciSteppers'
 import DateHeader from './DateHeader'
+
+const SubmitButton = ({ onPress }) => (
+  <TouchableOpacity
+    onPress={onPress}>
+    <Text>SUBMIT</Text>
+  </TouchableOpacity>
+)
 
 export default class AddEntry extends Component {
   state = {
     run: 0,
-    bike: 0,
+    bike: 10,
     swim: 0,
     sleep: 0,
     eat: 0
@@ -44,27 +51,54 @@ export default class AddEntry extends Component {
     })
   }
 
+  submit = () => {
+    const key = timeToString()
+    const entry = this.state
+
+    // update redux
+
+    this.setState({
+      run: 0,
+      bike: 0,
+      swim: 0,
+      sleep: 0,
+      eat: 0
+    })
+    // navigate to home
+
+    // save to db
+
+    // clear notifications
+  }
+
   render() {
     const metaInfo = getMetricMetaInfo()
 
     return (
       <View>
+        <Text>{JSON.stringify(this.state)}</Text>
         <DateHeader date={(new Date().toLocaleDateString())} />
         {Object.keys(metaInfo).map(key => {
-          const { getIcon, type, ...rest } = metaInfo[key]
+          const { getIcon, type, unit, ...rest } = metaInfo[key]
           const value = this.state[key]
-          
+          {/* alert(JSON.stringify(metaInfo[key]))           */}
           return (
             <View key={key}>
               {getIcon()}
 
               {type === 'slider'
-                ? <UdacitySlider />
-                : <UdacitySteppers />
+                ? <UdaciSlider
+                  {...metaInfo[key]}
+                  value={value}
+                  onChange={(value) => this.slide(key, value)}
+                  />
+                : <UdaciSteppers />
               }
+
             </View>
           )
         })}
+        <SubmitButton onPress={this.submit} />        
       </View>
     )
   }
