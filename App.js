@@ -4,12 +4,12 @@ import AddEntry from './components/AddEntry'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers/index'
-import devToolsEnhancer from 'remote-redux-devtools';
+import { composeWithDevTools } from 'remote-redux-devtools';
 
 export default class App extends React.Component {
   render() {
     return (
-      <Provider store={createStore(reducer, devToolsEnhancer({ realtime: true }))}>
+      <Provider store={createStore(reducer, composeWithDevTools())}>
         <View>
           <AddEntry />
         </View>
