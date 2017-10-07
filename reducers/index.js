@@ -1,8 +1,6 @@
 import { RECIEVE_ENTRIES, ADD_ENTRY } from '../actions/index'
 
-export const initialState = {
-  entries: {}
-}
+export const initialState = {}
 
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
