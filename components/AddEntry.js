@@ -10,6 +10,7 @@ import { submitEntry, removeEntry } from '../utils/api'
 import { connect } from 'react-redux'
 import { addEntry } from '../actions/index'
 import { white, purple, } from '../utils/colors'
+import { NavigationActions } from 'react-navigation'
 
 const SubmitButton = ({ onPress }) => (
   <TouchableOpacity style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.andriodSubmitBtn}
@@ -73,7 +74,7 @@ export class AddEntry extends Component {
       eat: 0
     })
 
-    // navigate to home
+    this.toHome()
 
     submitEntry({ key, entry })
 
@@ -83,14 +84,19 @@ export class AddEntry extends Component {
   reset = () => {
     const key = timeToString()
 
-    // Update Redux
     this.props.addEntry({
       [key]: getDailyReminderValue()
     })
 
-    // Route to Home
+    this.toHome()
 
     removeEntry(key)
+  }
+
+  toHome = () => {
+    this.props.navigation.dispatch(NavigationActions.back({
+      key: 'AddEntry'
+    }))
   }
 
   render() {
@@ -113,13 +119,11 @@ export class AddEntry extends Component {
 
     return (
       <View style={styles.container}>
-        {/* <Text>{JSON.stringify(this.state)}</Text> */}
         <DateHeader date={(new Date().toLocaleDateString())} />
         {Object.keys(metaInfo).map(key => {
           const metricInfo = metaInfo[key]
           const { getIcon, type, unit, ...rest } = metricInfo
           const value = this.state[key]
-          {/* alert(JSON.stringify(metaInfo[key]))           */}
           return (
             <View key={key} style={styles.row}>
               {getIcon()}
@@ -137,7 +141,6 @@ export class AddEntry extends Component {
                     onDecrement={() => { this.decrement(key) }}
                   />
               }
-
             </View>
           )
         })}
@@ -155,7 +158,8 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, { navigation }) => ({
+  goBack: () => navigation.goBack(),
   addEntry: (entry) => dispatch(addEntry(entry))
 })
 
