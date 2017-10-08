@@ -1,8 +1,5 @@
 import React from 'react'
 import { View, StyleSheet, Platform, StatusBar } from 'react-native'
-import History from './components/History'
-import AddEntry from './components/AddEntry'
-import EntryDetail from './components/EntryDetail'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers/index'
@@ -11,6 +8,10 @@ import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
 import { white, purple } from './utils/colors'
 import { FontAwesome, Ionicons } from '@expo/vector-icons'
 import { Constants } from 'expo'
+import History from './components/History'
+import AddEntry from './components/AddEntry'
+import EntryDetail from './components/EntryDetail'
+import Live from './components/Live'
 
 const UdaciStatusBar = ({ backgroundColor, ...props }) => (
   <View style={{backgroundColor, height: Constants.statusBarHeight}}>
@@ -18,21 +19,30 @@ const UdaciStatusBar = ({ backgroundColor, ...props }) => (
   </View>
 )
 
-const Tabs = TabNavigator({
-  History: {
-    screen: History,
-    navigationOptions: {
-      tabBarLabel: 'History',
-      tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+const Tabs = TabNavigator(
+  {
+    History: {
+      screen: History,
+      navigationOptions: {
+        tabBarLabel: 'History',
+        tabBarIcon: ({ tintColor }) => <Ionicons name='ios-bookmarks' size={30} color={tintColor} />
+      }
+    },
+    AddEntry: {
+      screen: AddEntry,
+      navigationOptions: {
+        tabBarLabel: 'Add Entry',
+        tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
+      }
+    },
+    Live: {
+      screen: Live,
+      navigationOptions: {
+        tabBarLabel: 'Live',
+        tabBarIcon: ({ tintColor }) => <Ionicons name='ios-speedometer' size={30} color={tintColor} />
+      }
     }
   },
-  AddEntry: {
-    screen: AddEntry,
-    navigationOptions: {
-      tabBarLabel: 'Add Entry',
-      tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
-    }
-  }},
   {
     navigationOptions: {
       header: null,
