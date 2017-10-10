@@ -12,7 +12,6 @@ import History from './components/History'
 import AddEntry from './components/AddEntry'
 import EntryDetail from './components/EntryDetail'
 import Live from './components/Live'
-import AnimatedExample from './components/AnimatedExample'
 
 const UdaciStatusBar = ({ backgroundColor, ...props }) => (
   <View style={{backgroundColor, height: Constants.statusBarHeight}}>
